@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package drone;
+
+service DroneController {
+  rpc DroneConnection(stream DroneClientMsg) returns (stream DroneServerMsg);
+}
+
+message DroneClientMsg {
+  // 0 to 100
+  int32 throttle = 1;
+  // -45 to 45
+  int32 roll = 2;
+  // -45 to 45
+  int32 pitch = 3;
+}
+
+message Point {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message Region {
+  Point minimal_point = 1;
+  Point maximal_point = 2;
+}
+
+message DroneServerMsg {
+  message SimOver {
+    bool success = 1;
+    optional string details = 2;
+  }
+
+  message SimStart {
+    Point drone_location = 1;
+    Region boundary = 2;
+    Region goal = 3;
+  }
+
+  message SimUpdate {
+    Point drone_location = 1;
+  }
+
+  oneof data {
+    SimStart start = 1;
+    SimOver ended = 2;
+    SimUpdate update = 3;
+  }
+}
