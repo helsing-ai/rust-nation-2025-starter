@@ -12,7 +12,6 @@ resolver = "2"
 [dependencies]
 clap = { version = "4.5.16", features = ["derive"] }
 eyre = "0.6.12"
-nalgebra = "0.32.2"
 
 num = "0.4.0"
 prost = "0.12"
